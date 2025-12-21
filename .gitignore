@@ -1,0 +1,67 @@
+# R History and Session Data
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+
+# R Session Files
+*.Rproj.user/
+*.Rproj
+
+# R Temporary Files
+*-Ex.R
+*.Rout
+*.rds
+*.rda
+
+# R Package Development
+*.tar.gz
+*.zip
+.Rbuildignore
+inst/doc
+
+# Knitr and R Markdown
+*.utf8.md
+*.knit.md
+.Rproj.user
+/*_cache/
+/cache/
+
+# Generated Output (keep results directory but ignore contents)
+results/*.csv
+results/*.xlsx
+results/*.pdf
+results/*.png
+results/*.jpg
+!results/.gitkeep
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Backup Files
+*.bak
+*.backup
+*~
+
+# Log Files
+*.log
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
