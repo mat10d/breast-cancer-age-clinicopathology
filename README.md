@@ -2,10 +2,10 @@
 
 ## Citation
 
-**Ogunbiyi OJ, Shittu OB, Fatiregun AA, Wuraola FO, Habeebu MY, Ayandipo OO (2021)**
+**Wuraola FO, Olasehinde O, Di Bernardo M, Akinkuolie AA, Adisa AO, Aderounmu AA, Mohammed TO, Omoyiola OZ, Kingham TP, Alatise OI (2022)**
 Breast cancer in elderly patients: a clinicopathological review of a Nigerian database
-*ecancermedicalscience* 15:1484
-DOI: [10.3332/ecancer.2021.1484](https://doi.org/10.3332/ecancer.2021.1484)
+*ecancermedicalscience* 16:1484
+DOI: [10.3332/ecancer.2022.1484](https://doi.org/10.3332/ecancer.2022.1484)
 URL: https://ecancer.org/en/journal/article/1484-breast-cancer-in-elderly-patients-a-clinicopathological-review-of-a-nigerian-database
 
 ## Principal Investigator
