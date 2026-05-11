@@ -1,17 +1,26 @@
 ################################################################################
-# Breast Cancer in Elderly Patients: Clinicopathological Analysis
+# Breast Cancer in Elderly Patients: Data Processing Pipeline
 #
-# PI: Funmi Wuraola
-# Journal: ecancer
-# DOI: https://ecancer.org/en/journal/article/1484
+# Paper: "Breast cancer in elderly patients: a clinicopathological review
+#         of a Nigerian database"
+# Authors: Wuraola FO, Olasehinde O, Di Bernardo M, Akinkuolie AA, Adisa AO,
+#          Aderounmu AA, Mohammed TO, Omoyiola OZ, Kingham TP, Alatise OI
+# Journal: ecancermedicalscience 16:1484 (2022)
+# DOI: https://doi.org/10.3332/ecancer.2022.1484
 #
 # Description:
-# This script analyzes clinicopathological data from a Nigerian breast cancer
-# database, focusing on pathological characteristics, immunohistochemistry,
-# treatment patterns, and follow-up outcomes.
+# This script processes and cleans the REDCap clinical data export.
+# Statistical analysis (Chi-square tests, Fisher's exact tests, descriptive
+# statistics reported in the paper) was performed using SPSS by the clinical
+# research team.
 #
-# The analysis handles bilateral cases by splitting them into separate
-# right/left records and merges laterality-specific pathology data.
+# Data processing steps:
+#   - Handles bilateral cases by splitting into separate right/left records
+#   - Consolidates laterality-specific pathology columns
+#   - Converts multi-select checkbox fields to comma-separated strings
+#   - Merges supplementary lymph node data
+#   - Creates labeled factor variables for categorical data
+#   - Exports processed dataset with variable labels
 ################################################################################
 
 # Clear workspace and graphics

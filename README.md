@@ -1,78 +1,103 @@
-# Breast Cancer in Elderly Patients: Clinicopathological Analysis
+# Breast Cancer in Elderly Patients: Data Processing Pipeline
 
 ## Citation
 
 **Wuraola FO, Olasehinde O, Di Bernardo M, Akinkuolie AA, Adisa AO, Aderounmu AA, Mohammed TO, Omoyiola OZ, Kingham TP, Alatise OI (2022)**
-Breast cancer in elderly patients: a clinicopathological review of a Nigerian database
-*ecancermedicalscience* 16:1484
+Breast cancer in elderly patients: a clinicopathological review of a Nigerian database.
+*ecancermedicalscience* 16:1484.
 DOI: [10.3332/ecancer.2022.1484](https://doi.org/10.3332/ecancer.2022.1484)
-URL: https://ecancer.org/en/journal/article/1484-breast-cancer-in-elderly-patients-a-clinicopathological-review-of-a-nigerian-database
 
-## Principal Investigator
+### Authors
 
-**Funmi Wuraola, MD**
+| # | Author | Affiliation |
+|---|--------|-------------|
+| 1 | Funmilola Olanike Wuraola | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 2 | Olalekan Olasehinde | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 3 | Matteo Di Bernardo | Department of Surgery, Memorial Sloan Kettering Cancer Center, New York, USA |
+| 4 | Akinbolaji A Akinkuolie | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 5 | Adewale O Adisa | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 6 | Adewale A Aderounmu | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 7 | Tajudeen O Mohammed | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 8 | Oluwatosin Z Omoyiola | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
+| 9 | Thomas P Kingham | Department of Surgery, Memorial Sloan Kettering Cancer Center, New York, USA |
+| 10 | Olusegun I Alatise | Department of Surgery, Obafemi Awolowo University Teaching Hospitals Complex, Ile-Ife, Nigeria |
 
-## Project Description
+## Overview
 
-This repository contains the data processing and analysis code for a clinicopathological study of breast cancer cases from a Nigerian hospital database. The study examines pathological characteristics, immunohistochemistry profiles, treatment patterns, and clinical outcomes in breast cancer patients.
+> **Important:** This repository contains the **data processing pipeline** for cleaning and transforming the REDCap clinical data export. The statistical analysis reported in the paper (Chi-square tests, Fisher's exact tests, descriptive statistics, survival analysis) was performed using **SPSS** by the clinical research team. This is a common and standard workflow in clinical research.
 
-### Key Features
+The R script (`breast_cancer_analysis.R`) takes raw REDCap exports and produces a clean, analysis-ready dataset. It does **not** perform statistical tests or generate the tables/figures presented in the publication.
 
-- **Data source**: REDCap database from Nigerian tertiary hospital
-- **Analysis focus**:
-  - Clinicopathological characteristics
-  - Diagnostic workup (FNAC, tru-cut, biopsies)
-  - Histopathology and grading (Nottingham system)
-  - TNM staging
-  - Immunohistochemistry (ER, PR, HER2)
-  - Molecular subtypes
-  - Treatment modalities (surgery, chemotherapy, hormone therapy, radiotherapy)
-  - Follow-up and survival outcomes
+### What this code does
 
-### Data Processing Features
+- Cleans and restructures the REDCap data export
+- Handles bilateral breast cancer cases (splits into separate laterality records)
+- Consolidates side-specific pathology columns into unified fields
+- Converts multi-select checkbox variables to readable strings
+- Merges supplementary lymph node data
+- Creates labeled factor variables for all categorical data
+- Exports a processed CSV ready for statistical analysis
 
-The analysis pipeline handles:
+### What this code does NOT do
 
-1. **Bilateral cases**: Splits bilateral breast cancer cases into separate laterality-specific records
-2. **Laterality consolidation**: Merges side-specific pathology data into unified fields
-3. **Multi-select variables**: Converts checkbox treatment regimens to comma-separated values
-4. **Data merging**: Integrates supplementary lymph node data
-5. **Factor coding**: Transforms numeric codes to labeled categorical variables
-6. **Variable labeling**: Adds descriptive metadata using Hmisc labels
+- Chi-square or Fisher's exact tests (performed in SPSS)
+- Descriptive statistics tables (performed in SPSS)
+- Survival/follow-up analysis (performed in SPSS)
+- Figure generation (performed in SPSS/Excel)
 
 ## Repository Structure
 
 ```
-git_repo/
-├── README.md                                   # This file
-├── breast_cancer_analysis.R                    # Main analysis script
-├── 18114DevelopingABrea-Post2018PathologyStu_DATA_2022-01-12_0517.csv  # Input data
-├── Lymph.csv                                   # Lymph node supplementary data
+├── README.md
+├── breast_cancer_analysis.R                    # Data processing script (R)
+├── 18114DevelopingABrea-...DATA_2022-01-12_0517.csv  # REDCap data export
+├── Lymph.csv                                   # Supplementary lymph node data
 ├── results/                                    # Output directory
-│   ├── processed_breast_cancer_data.csv        # Processed dataset (generated)
+│   ├── processed_breast_cancer_data.csv        # Cleaned dataset (generated)
 │   └── variable_labels.csv                     # Variable label dictionary (generated)
-└── .gitignore                                  # Git ignore rules
+└── .gitignore
 ```
+
+## Data Description
+
+### Input Files
+
+| File | Description |
+|------|-------------|
+| `18114DevelopingABrea-Post2018PathologyStu_DATA_2022-01-12_0517.csv` | Main pathology dataset exported from REDCap (2022-01-12). Contains demographics, diagnostic procedures, pathology results, IHC, treatment, and follow-up data. |
+| `Lymph.csv` | Supplementary lymph node assessment data, merged by hospital number. |
+
+### Output Files
+
+| File | Description |
+|------|-------------|
+| `results/processed_breast_cancer_data.csv` | Cleaned dataset with consolidated pathology fields, labeled factors, and merged lymph node data. Ready for statistical analysis. |
+| `results/variable_labels.csv` | Data dictionary mapping each variable to its descriptive label. |
+
+### Key Variables in Processed Dataset
+
+| Category | Variables |
+|----------|-----------|
+| **Demographics** | `record_id`, `age`, `birth_date`, `side` |
+| **Diagnostics** | `fnac`, `fnac_result`, `trucut`, `trucut_result`, `incision_biop`, `excision` |
+| **Pathology** | `nottingham` (grade), `path_stage_t/n/m`, `path_stage_group` |
+| **IHC** | `ihc_er`, `ihc_pr`, `ihc_her2`, `molecular_type` |
+| **Treatment** | `neo_chemo`, `neo_type`, `surgery`, `surg_type`, `adj_chemo`, `adj_type`, `hormone`, `hormone_type`, `radiotherapy` |
+| **Outcomes** | `follow_up_status`, `death_date`, `followup_date` |
 
 ## Requirements
 
-### R Version
+### R Packages
 
-This analysis was developed using R version 4.x or higher.
+| Package | Purpose |
+|---------|---------|
+| **Hmisc** | Variable labeling (`label()`) |
+| **dplyr** | Data manipulation (`filter`, `mutate`, `select`) |
+| **lubridate** | Date handling |
+| **tibble** | `add_column()` for placeholder variables |
+| **tidyr** | `unite()` for merging multi-select fields |
 
-### Required R Packages
-
-The following R packages are required:
-
-- **Hmisc** (≥4.5.0): Variable labeling and data management
-- **dplyr** (≥1.0.0): Data manipulation
-- **lubridate** (≥1.7.0): Date/time handling
-- **tibble** (≥3.0.0): Modern data frames
-- **tidyr** (≥1.1.0): Data reshaping and tidying
-
-### Installing Dependencies
-
-The script will automatically install missing packages. Alternatively, you can install them manually:
+The script auto-installs missing packages. To install manually:
 
 ```r
 install.packages(c("Hmisc", "dplyr", "lubridate", "tibble", "tidyr"))
@@ -80,91 +105,95 @@ install.packages(c("Hmisc", "dplyr", "lubridate", "tibble", "tidyr"))
 
 ## Usage
 
-### Running the Analysis
-
-1. Ensure all required packages are installed
-2. Set your working directory to the `git_repo/` folder
-3. Run the analysis script:
-
 ```r
+# Set working directory to this repository
+setwd("/path/to/breast-cancer-age-clinicopathology")
+
+# Run the data processing pipeline
 source("breast_cancer_analysis.R")
 ```
 
-### Expected Outputs
+The script prints a summary upon completion (total records processed, unique patients) and saves output to `results/`.
 
-The script generates two CSV files in the `results/` directory:
+## Data Processing Pipeline
 
-1. **processed_breast_cancer_data.csv**: Complete processed dataset with:
-   - Consolidated laterality-specific pathology data
-   - Labeled factor variables
-   - Merged lymph node information
-   - Treatment regimens as comma-separated strings
+The script follows 10 sequential steps:
 
-2. **variable_labels.csv**: Data dictionary mapping variable names to descriptive labels
+1. **Load packages** — Checks and installs required R packages
+2. **Import data** — Reads the REDCap CSV export
+3. **Handle bilateral cases** — Splits bilateral (side=3) into right (side=1) and left (side=2) records
+4. **Consolidate pathology data** — Merges side-specific columns (e.g., `fnac_right`/`fnac_left` → `fnac`)
+5. **Process treatment variables** — Converts checkbox fields to comma-separated regimen strings (e.g., "CAF,EC/P")
+6. **Merge lymph node data** — Left-joins supplementary lymph node assessment data
+7. **Create factor variables** — Converts numeric codes to labeled factors (e.g., 1→"Right", 2→"Left")
+8. **Build final dataset** — Selects and orders columns for the analysis-ready output
+9. **Add variable labels** — Assigns descriptive Hmisc labels for documentation
+10. **Export results** — Writes processed CSV and variable label dictionary
 
-### Console Output
+### Treatment Regimen Abbreviations
 
-The script prints summary statistics upon completion:
-- Total records processed
-- Number of unique patients
-- Output file locations
-
-## Data Notes
-
-### Input Data Files
-
-- `18114DevelopingABrea-Post2018PathologyStu_DATA_2022-01-12_0517.csv`: Main pathology dataset exported from REDCap (last updated: 2022-01-12)
-- `Lymph.csv`: Supplementary lymph node assessment data
-
-### Data Privacy
-
-This repository contains de-identified clinical research data. Patient identifiers have been replaced with research numbers. Hospital numbers are retained for record linkage but do not contain personally identifiable information in this context.
-
-### Missing Data
-
-Missing values are represented as `NA` in R and as empty strings in CSV exports. The code distinguishes between:
-- True missing data (`NA`)
-- "Unknown" status (coded as -1 or 99)
-- "Not performed" tests (coded as 0 or specific values)
-
-## Methodology Notes
-
-### Bilateral Case Handling
-
-Patients with bilateral breast cancer (side = 3) are split into two records:
-- One record for the right side (side = 1)
-- One record for the left side (side = 2)
-
-This allows laterality-specific pathology and treatment data to be properly analyzed while maintaining the patient-tumor relationship.
-
-### Treatment Regimen Coding
-
-Chemotherapy and hormone therapy regimens use standard abbreviations:
-- **CAF**: Cyclophosphamide + Adriamycin + 5-Fluorouracil
-- **CEF**: Cyclophosphamide + Epirubicin + 5-Fluorouracil
-- **CMF**: Cyclophosphamide + Methotrexate + 5-Fluorouracil
-- **EC**: Epirubicin + Cyclophosphamide
-- **AC**: Adriamycin + Cyclophosphamide
-- **EC/P**: EC + Paclitaxel
-- **EC/D**: EC + Docetaxel
-- **GC**: Gemcitabine + Carboplatin
-- **DC**: Docetaxel + Cyclophosphamide
+| Abbreviation | Regimen |
+|-------------|---------|
+| CAF | Cyclophosphamide + Adriamycin + 5-Fluorouracil |
+| CEF | Cyclophosphamide + Epirubicin + 5-Fluorouracil |
+| CMF | Cyclophosphamide + Methotrexate + 5-Fluorouracil |
+| EC | Epirubicin + Cyclophosphamide |
+| AC | Adriamycin + Cyclophosphamide |
+| EC/P | EC + Paclitaxel |
+| EC/D | EC + Docetaxel |
+| GC | Gemcitabine + Carboplatin |
+| DC | Docetaxel + Cyclophosphamide |
 
 ### Molecular Subtypes
 
-Classified based on immunohistochemistry:
-1. **Luminal A**: ER+ and/or PR+, HER2-
-2. **Luminal B**: ER+ and/or PR+, HER2+
-3. **HER2-enriched**: ER-, PR-, HER2+
-4. **Basal-like**: ER-, PR-, HER2- (Triple negative)
+| Subtype | IHC Profile |
+|---------|------------|
+| Luminal A | ER+ and/or PR+, HER2− |
+| Luminal B | ER+ and/or PR+, HER2+ |
+| HER2-enriched | ER−, PR−, HER2+ |
+| Basal-like (Triple Negative) | ER−, PR−, HER2− |
 
-## Reproducibility
+## Analysis Workflow
 
-This repository is designed for full reproducibility:
-- All analysis code is version-controlled
-- Package dependencies are explicitly documented
-- Data processing steps are clearly annotated
-- Intermediate results can be regenerated from source data
+The complete analysis workflow for this study was:
+
+```
+REDCap Database
+     │
+     ▼
+┌─────────────────────────────┐
+│  breast_cancer_analysis.R   │  ◀── This repository
+│  (Data cleaning & export)   │
+└─────────────────────────────┘
+     │
+     ▼
+processed_breast_cancer_data.csv
+     │
+     ▼
+┌─────────────────────────────┐
+│  SPSS / Excel               │  ◀── Not in this repository
+│  (Statistical analysis)     │
+│  - Chi-square tests         │
+│  - Fisher's exact tests     │
+│  - Descriptive statistics   │
+│  - Cross-tabulations        │
+└─────────────────────────────┘
+     │
+     ▼
+Published Tables & Results
+```
+
+## Data Privacy
+
+This repository contains de-identified clinical research data. Patient identifiers have been replaced with research numbers. Hospital numbers are retained for record linkage but do not contain personally identifiable information in this context.
+
+### Missing Data Conventions
+
+| Representation | Meaning |
+|---------------|---------|
+| `NA` / empty | True missing data |
+| `-1` / "Unknown" | Unknown status |
+| `0` / "No" or `99` / "Not performed" | Test not done or not applicable |
 
 ## License
 
@@ -172,8 +201,4 @@ This code is provided for research and educational purposes. Please cite the ori
 
 ## Contact
 
-For questions about this analysis, please refer to the corresponding author listed in the publication.
-
-## Acknowledgments
-
-Data were collected as part of a multi-institutional study of breast cancer pathology in Nigeria. We acknowledge the contributions of pathologists, clinicians, and data managers at participating institutions.
+For questions about this study, please refer to the corresponding author listed in the [publication](https://doi.org/10.3332/ecancer.2022.1484).
